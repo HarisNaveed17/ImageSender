@@ -1,0 +1,24 @@
+
+syntax = 'proto3';
+
+
+service ImageSender {
+
+rpc Send(Image) returns (Response) {}
+
+}
+
+message Image {
+
+bytes image = 1;
+int32 height = 2;
+int32 width = 3;
+
+}
+
+message Response {
+
+string ack = 1;
+
+}
+
