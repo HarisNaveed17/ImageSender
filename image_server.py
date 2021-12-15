@@ -6,6 +6,8 @@ import base64
 from concurrent import futures
 import logging
 
+MAX_MESSAGE_LENGTH = 104857600
+
 
 def save_image(encoded_img, w, h):
     decoded_img = base64.b64decode(encoded_img)
@@ -23,7 +25,8 @@ class ImageSenderServicer(image_sender_pb2_grpc.ImageSenderServicer):
 
 
 def server():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=12))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=12), options=[
+        ('grpc.max_send_message_length', MAX_MESSAGE_LENGTH), ('grpc.max_receive_message_length', MAX_MESSAGE_LENGTH), ],)
     image_sender_pb2_grpc.add_ImageSenderServicer_to_server(
         ImageSenderServicer(), server)
     print('Starting server. Listening on port 5005.')
