@@ -4,6 +4,7 @@ import image_sender_pb2_grpc
 import numpy as np
 import base64
 
+
 MAX_MESSAGE_LENGTH = 104857600
 
 
