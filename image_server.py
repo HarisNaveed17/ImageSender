@@ -31,7 +31,7 @@ def server():
     image_sender_pb2_grpc.add_ImageSenderServicer_to_server(
         ImageSenderServicer(), server)
     print('Starting server. Listening on port 5005.')
-    server.add_insecure_port('[::]:5005')
+    server.add_insecure_port('localhost:5005')
     server.start()
     server.wait_for_termination()
 
