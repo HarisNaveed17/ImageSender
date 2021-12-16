@@ -10,9 +10,9 @@ import logging
 MAX_MESSAGE_LENGTH = 104857600
 
 
-def save_image(encoded_img, w, h):
+def save_image(encoded_img, w, h, batch):
     decoded_img = base64.b64decode(encoded_img)
-    imgarr = np.frombuffer(decoded_img, dtype=np.uint8).reshape(w, h, -1)
+    imgarr = np.frombuffer(decoded_img, dtype=np.uint8).reshape(batch, w, h, -1)
     np.save('send_file.npy', imgarr)
     return 'File sent and saved.'
 
@@ -21,7 +21,7 @@ class ImageSenderServicer(image_sender_pb2_grpc.ImageSenderServicer):
     def Send(self, request, context):
         response = image_sender_pb2.Response()
         response.ack = save_image(
-            request.image, request.width, request.height)
+            request.image, request.width, request.height, request.batch_size)
         return response
 
 

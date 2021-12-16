@@ -22,10 +22,11 @@ def run():
 
     for _ in range(10):
         frame = np.random.randint(0, 255, (5, 720, 1280, 3), dtype=np.uint8)
-        h = frame.shape[0]
-        w = frame.shape[1]
+        h = frame.shape[1]
+        w = frame.shape[2]
+        batch = frame.shape[0]
         data = base64.b64encode(frame)
-        image_req = image_sender_pb2.Image(image=data, height=h, width=w)
+        image_req = image_sender_pb2.Image(image=data, height=h, width=w, batch_size=batch)
         response = stub.Send(image_req)
         print(response)
     channel.close()
